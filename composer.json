@@ -1,0 +1,14 @@
+{
+    "name": "networkteam/orphaned-resources",
+    "type": "neos-package",
+    "license": "MIT",
+    "description": "Removes orphaned files in Data/Persistent/Resources",
+    "require": {
+        "neos/flow": "~5.0 || ~6.0 || ~7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Networkteam\\OrphanedResources\\": "Classes"
+        }
+    }
+}
