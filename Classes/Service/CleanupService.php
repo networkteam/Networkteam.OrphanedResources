@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 class CleanupService
 {
     /**
-     * @Flow\Inject(name="Neos.Flow:SystemLogger")
+     * @Flow\Inject
      * @var LoggerInterface
      */
     protected $systemLogger;
