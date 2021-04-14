@@ -13,5 +13,5 @@ This is the counterpart to the Flow command `resource:clean`.
 
 ## Why is it necessary?
 
-In a perfect world it's not necessary, but when a resource is created in filesystem and an exception occurs before it's
-persisted in database then you have such orphaned resource files.
+In a perfect world it's not necessary, but when a resource is created in filesystem and an exception or service outage
+occurs before it's persisted in database then you have such orphaned resource files.
