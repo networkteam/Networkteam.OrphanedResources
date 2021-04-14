@@ -27,7 +27,8 @@ class CleanupService
 
     public function removeOrphanedResources(bool $execute = false, int $minimumAge = 3600): void
     {
-        foreach (Files::getRecursiveDirectoryGenerator(FLOW_PATH_DATA . 'Persistent/Resources/') as $file) {
+        $basePath = FLOW_PATH_DATA . 'Persistent/Resources/';
+        foreach (Files::getRecursiveDirectoryGenerator($basePath) as $file) {
             if (
                 is_file($file) &&
                 !$this->isFileToNew($file, $minimumAge) &&
@@ -35,7 +36,7 @@ class CleanupService
             ) {
                 if ($execute) {
                     Files::unlink($file);
-                    Files::removeEmptyDirectoriesOnPath(dirname($file));
+                    Files::removeEmptyDirectoriesOnPath(dirname($file), $basePath);
                 }
 
                 $this->systemLogger->info(sprintf('Deleted orphaned resource: %s',
