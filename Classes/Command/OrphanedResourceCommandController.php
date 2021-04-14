@@ -20,9 +20,10 @@ class OrphanedResourceCommandController extends \Neos\Flow\Cli\CommandController
      *
      * @param boolean $execute Really delete them
      * @param integer $minimumAge Ignore files younger than x seconds (Default: 3600)
+     * @param boolean $quiet
      */
-    public function removeCommand($execute = false, $minimumAge = 3600)
+    public function removeCommand($execute = false, $minimumAge = 3600, $quiet = false)
     {
-        $this->service->removeOrphanedResources($execute, $minimumAge);
+        $this->service->removeOrphanedResources($execute, $minimumAge, $quiet ? null : $this->output);
     }
 }

@@ -3,6 +3,7 @@
 namespace Networkteam\OrphanedResources\Service;
 
 use Neos\Flow\Annotations as Flow;
+use Neos\Flow\Cli\ConsoleOutput;
 use Neos\Flow\ResourceManagement\PersistentResource;
 use Neos\Flow\ResourceManagement\ResourceManager;
 use Neos\Utility\Files;
@@ -25,7 +26,7 @@ class CleanupService
      */
     protected $resourceManager;
 
-    public function removeOrphanedResources(bool $execute = false, int $minimumAge = 3600): void
+    public function removeOrphanedResources(bool $execute = false, int $minimumAge = 3600, ConsoleOutput $output = null): void
     {
         $basePath = FLOW_PATH_DATA . 'Persistent/Resources/';
         foreach (Files::getRecursiveDirectoryGenerator($basePath) as $file) {
@@ -34,14 +35,17 @@ class CleanupService
                 !$this->isFileToNew($file, $minimumAge) &&
                 !$this->isFileAttachedToAResourceInDatabase($file)
             ) {
+                $logMessage = sprintf('Deleted orphaned resource: %s', str_replace(FLOW_PATH_ROOT, '', $file));
+
                 if ($execute) {
                     Files::unlink($file);
                     Files::removeEmptyDirectoriesOnPath(dirname($file), $basePath);
+                    $this->systemLogger->info($logMessage);
                 }
 
-                $this->systemLogger->info(sprintf('Deleted orphaned resource: %s',
-                    str_replace(FLOW_PATH_ROOT, '', $file)
-                ));
+                if ($output) {
+                    $output->outputLine($logMessage);
+                }
             }
         }
     }
